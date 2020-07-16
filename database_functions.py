@@ -64,11 +64,11 @@ def add_image(img, name):
     
     Parameters
     ----------
-    img: np.ndarray - image data
+    img: string - pathname of image
     name: string - name of person to add to
     
     """
-    descriptor = get_descriptor(img)
+    descriptor = find_faces(img)[0]
     database = load_db("database.pkl")
     
     if not name in database:
