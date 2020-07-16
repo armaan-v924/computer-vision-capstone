@@ -1,3 +1,4 @@
+from Profile import Profile
 import numpy as np
 
 def cos_distance(d1, d2):
