@@ -11,7 +11,7 @@ def find_faces(image):
 
     Parameters:
     -----------
-    image: Path to image file
+    image: Path to image file OR (X, Y, 3) numpy array of pixels
     
     Returns:
     --------
@@ -21,8 +21,11 @@ def find_faces(image):
 
     """
     # Format image
-    img = cv2.imread(image)
-    img = img[:,:,::-1]
+    if type(image).__module__ is not np.__name__:
+        img = cv2.imread(image)
+        img = img[:,:,::-1]
+    else:
+        img = image
 
     # Create model
     model = FacenetModel()
