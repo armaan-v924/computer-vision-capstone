@@ -2,7 +2,6 @@
 from facenet_models import FacenetModel
 import torch
 import numpy as np
-import matplotlib as plt
 from matplotlib.image import imread
 import cv2
 
