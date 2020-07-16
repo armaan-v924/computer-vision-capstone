@@ -6,7 +6,7 @@ from camera import take_picture
 
 img_array = take_picture()
 descriptors, bounding_boxes, probs = gd.find_faces(img_array)
-img.plot(img_array)
+imgplot= plt.imgshow(img_array)
 
 
 
