@@ -15,7 +15,7 @@ def display_image():
         #draws the box on the plot
         ax.add_patch(Rectangle(box[:2], *(box[2:] - box[:2]), fill=None, lw=2, color="purple"))
         label = mf.match_face(descriptor, df.load_db("database.pkl"),500)
-        ax.text(box[:2], *(box[2:] - box[:2]), label, fontsize=15)
+        ax.text(box[:2], (box[2:] - box[:2]), label, fontsize=15)
     plt.show()
 
 
