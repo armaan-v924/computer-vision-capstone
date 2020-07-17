@@ -36,6 +36,6 @@ def find_faces(image):
     # Create descriptors
     descriptors = model.compute_descriptors(img, bounding_boxes)
 
-    return descriptors, bounding_boxes, probabilities
+    return descriptors, bounding_boxes, probabilities, landmarks
 
 # 
