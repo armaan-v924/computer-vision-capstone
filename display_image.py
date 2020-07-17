@@ -3,12 +3,19 @@ import generating_descriptors as gd
 import matplotlib.pyplot as plt
 from facenet_models import FacenetModel
 from camera import take_picture
-
+from matplotlib.patches import Rectangle
+import matchFaces as mf
+import database_functions as df
 img_array = take_picture()
-model = FacenetModel()
-descriptors, bounding_boxes, probabilities = gd.find_faces(img_array)
+descriptors, bounding_boxes, probabilities, landmarks = gd.find_faces(img_array)
 fig,ax = plt.subplots()
 ax.imshow(img_array)
+for descriptor, box, prob, _ in zip(descriptors, bounding_boxes, probabilities, landmarks):
+    #draws the box on the plot
+    ax.add_patch(Rectangle(box[:2], *(box[2:] - box[:2]), fill=None, lw=2, color="purple"))
+    label = mf.match_face(descriptor, load_db("database.pkl"),500)
+    #ax.text(box[2:]-box[:2], )
+plt.show()
 
 
 
