@@ -7,6 +7,7 @@ import generating_descriptors as gd
 import database_functions as df
 import Profile
 from PIL import Image
+import os
 
 class Node:
     """ Describes a node in a graph, and the edges connected
@@ -288,10 +289,8 @@ def cluster_to_profile(clusters, graph, pickle):
         person_name = input("Please input this person's name. Input 'cancel' if you don't want to include these pictures: ")
 
         if person_name.lower() != "cancel":
-            new_person = Profile(person_name)
+            new_person = Profile.Profile(person_name)
             for node_id in cluster:
                 new_person.add_face_descriptor(graph[node_id].descriptor)
             
             df.add_profile(new_person)
-            for node_id in cluster:
-                df.add_image(graph[node_id].file_path, person_name)

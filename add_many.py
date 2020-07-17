@@ -1,5 +1,6 @@
 import whisper as wsp
 from pathlib import Path
+import database_functions
 
 # Main
 root = Path(".")
