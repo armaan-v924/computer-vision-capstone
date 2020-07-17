@@ -14,7 +14,8 @@ def cos_distance(d1, d2):
     --------
     A number from [0,2] representing the cosine distance of d1 and d2
     '''
-    return 1- np.dot(d1.T,d2)/(np.sqrt(np.dot(d1.T,d1.T)) * np.sqrt(np.dot(d2,d2)))
+
+    return 1 - np.dot(d2, d1) / (np.sqrt(np.dot(d1.T, d1)) * np.sqrt(np.dot(d2, d2.T)))
 
 def match_face(descriptor, database, threshold):
     '''
