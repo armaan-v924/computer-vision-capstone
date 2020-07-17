@@ -25,7 +25,7 @@ def display_image():
     for descriptor, box, _, _ in zip(descriptors, bounding_boxes, probabilities, landmarks):
         #draws the box on the plot
         ax.add_patch(Rectangle(box[:2], *(box[2:] - box[:2]), fill=None, lw=2, color="purple"))
-        label = mf.match_face(descriptor, df.load_db("database.pkl"),500)
+        label = mf.match_face(descriptor, df.load_db("database.pkl"),0.7)
         ax.text(box[0],box[1]-10, label, fontsize=8,bbox={'facecolor': 'purple','alpha': 0.5, 'pad': 5})
     plt.show()
 
