@@ -1,3 +1,15 @@
 {
-    "python.pythonPath": "C:\\Users\\Apar2\\Anaconda3\\envs\\week2\\python.exe"
-}
+    "python.pythonPath": "C:\\Users\\Apar2\\Anaconda3\\envs\\week2\\python.exe",
+    "launch": {
+
+        "configurations": [],
+        "compounds": [],
+        
+        // Is git enabled
+        "git.enabled": true,
+        
+        // Path to the git executable
+        "git.path": "C:\\git.exe"
+        }
+        
+    }
