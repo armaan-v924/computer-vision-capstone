@@ -275,7 +275,7 @@ def whisper_img(directory):
     clusters = whisper_algorithm(100, graph, adj)
     return clusters, graph
 
-def cluster_to_profile(clusters, graph, pickle):
+def cluster_to_profile(clusters, graph):
     for cluster in clusters:
         for node_id in cluster:
             print("Please wait as we show you the images in this cluster...")
