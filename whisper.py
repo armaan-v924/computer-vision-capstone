@@ -2,9 +2,11 @@ import networkx as nx
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import matchFaces.py as mf
-import generating_descriptors.py as gd
-import os
+import matchFaces as mf
+import generating_descriptors as gd
+import database_functions as df
+import Profile
+from PIL import Image
 
 class Node:
     """ Describes a node in a graph, and the edges connected
@@ -145,7 +147,7 @@ def find_neighbors(descriptors, threshold):
 
     return adj_mat, neighbors
 
-def create_graph(descriptors, threshold):
+def create_graph(descriptors, threshold, paths=None):
     """ Creates a list of Node objects and the corresponding adjacency
     matrix to the graph (list of Node objects).
 
@@ -167,6 +169,9 @@ def create_graph(descriptors, threshold):
     
     for i in range(len(descriptors)):
         desc_node = Node(i, neighbors[i], descriptors[i])
+        if paths is not None:
+            desc_node.file_path = paths[i]
+
         graph.append(desc_node)
 
     return graph, adj_matrix
@@ -251,16 +256,43 @@ def whisper_algorithm(threshold, graph, adjacent):
 
 def whisper_img(directory):
     descriptors = []
+    file_paths = []
     for filename in os.listdir(directory):
-        desc = gd.find_faces(directory + "/" + filename)[0]
-        print(filename)
+        file_path = directory + "/" + filename
+        print("Processing " + filename + "...")
+        desc = gd.find_faces(file_path)[0]
         if desc.size == 512:
             desc = np.reshape(desc,(512,))
             descriptors.append(desc)
+            file_paths.append(file_path)
         else:
-            print(filename + " has too many people in it. Please input pictures with ONLY one person in them.")
+            print(file_path + " has too many people in it. Please input pictures with ONLY one person in them.")
     descriptors = np.array(descriptors)
     
 #     print(find_neighbors(descriptors, 0)[0])
-    graph, adj = create_graph(descriptors, 0.7)
-    print(whisper_algorithm(100, graph, adj))
+    graph, adj = create_graph(descriptors, 0.7, paths=file_paths)
+    clusters = whisper_algorithm(100, graph, adj)
+    return clusters, graph
+
+def cluster_to_profile(clusters, graph, pickle):
+    for cluster in clusters:
+        for node_id in cluster:
+            print("Please wait as we show you the images in this cluster...")
+            if graph[node_id].file_path is not None:
+                file = graph[node_id].file_path
+                img = Image.open(file)
+                img.show()
+                # img = cv2.imread(file)
+                # cv2.imshow(file, img)
+        
+        person_name = input("Please input this person's name. Input 'cancel' if you don't want to include these pictures: ")
+
+        if person_name.lower() != "cancel":
+            new_person = Profile(person_name)
+            for node_id in cluster:
+                new_person.add_face_descriptor(graph[node_id].descriptor)
+            
+            df.add_profile(new_person)
+            for node_id in cluster:
+                df.add_image(graph[node_id].file_path, person_name)
+
