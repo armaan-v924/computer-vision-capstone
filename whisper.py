@@ -2,7 +2,9 @@ import networkx as nx
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import matchFaces.py as mf
+import matchFaces as mf
+import generating_descriptors as gd
+import os
 
 class Node:
     """ Describes a node in a graph, and the edges connected
@@ -123,11 +125,12 @@ def find_neighbors(descriptors, threshold):
 
     for i, des in enumerate(descriptors):
         dists = []
-        for d in des:
-            dist = mf.cos_distance(des, descriptors)
-            dists.append[dist]
+        for d in descriptors:
+            dist = mf.cos_distance(des, d)
+            dists.append(dist)
         dists[i] = 1  # set the "dist" between the same descriptors to 1
                       # to avoid a division by zero error
+        dists = np.array(dists)
         dists = 1 / (dists ** 2)
         dists[dists<threshold] = 0
         dists[i] = 0 # re-set the "dist" between the same descriptors to 0
@@ -233,8 +236,9 @@ def whisper_algorithm(threshold, graph, adjacent):
         else:
             labels_same = 0
             
-        if labels_same > 3: ## how to determine convergence
-            break
+#         if labels_same > 10: ## how to determine convergence
+#             print("stopped early")
+#             break
     
     clusters = {}
     for node in graph:
@@ -244,3 +248,19 @@ def whisper_algorithm(threshold, graph, adjacent):
         clusters[label].append(node.id)
     # return clusters ## can also return a dict
     return list(clusters.values())
+
+def whisper_img(directory):
+    descriptors = []
+    for filename in os.listdir(directory):
+        desc = gd.find_faces(directory + "/" + filename)[0]
+        print(filename)
+        if desc.size == 512:
+            desc = np.reshape(desc,(512,))
+            descriptors.append(desc)
+        else:
+            print(filename + " has too many people in it. Please input pictures with ONLY one person in them.")
+    descriptors = np.array(descriptors)
+    
+#     print(find_neighbors(descriptors, 0)[0])
+    graph, adj = create_graph(descriptors, 0.7)
+    print(whisper_algorithm(100, graph, adj))
