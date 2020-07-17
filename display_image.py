@@ -6,6 +6,7 @@ from camera import take_picture
 from matplotlib.patches import Rectangle
 import matchFaces as mf
 import database_functions as df
+import cv2
 def display_image():
     """Using camera.take_picture() and mf.match_face, plot image and display boxes & names around faces
 
@@ -17,8 +18,13 @@ def display_image():
     --------
     None 
     """
-
-    img_array = take_picture()
+    cam = int(input("Take a picture (1) or use a file (2)? "))
+    if cam == 1:
+        img_array = take_picture()
+    else:
+        img = cv2.imread(input("Enter your file path: "))
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img_array = img
     descriptors, bounding_boxes, probabilities, landmarks = gd.find_faces(img_array)
     _,ax = plt.subplots()
     ax.imshow(img_array)
