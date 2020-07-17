@@ -17,7 +17,8 @@ def find_faces(image):
     --------
     Tuple: (descriptor: (N, 512) array, N is number of faces, 
             bounding_box: (N, 4) array, bounds of each face in the image,
-            probabilities: (N,) array, confidence (0-1))
+            probabilities: (N,) array, confidence (0-1),
+            landmarks: array of facial landmark locations)
 
     """
     # Format image
@@ -36,6 +37,6 @@ def find_faces(image):
     # Create descriptors
     descriptors = model.compute_descriptors(img, bounding_boxes)
 
-    return descriptors, bounding_boxes, probabilities
+    return descriptors, bounding_boxes, probabilities, landmarks
 
 # 

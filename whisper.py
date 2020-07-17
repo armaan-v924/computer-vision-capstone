@@ -193,7 +193,7 @@ def whisper_iter(graph, adjacent):
     neighbors = nodes[list(node.neighbors)]
     if len(neighbors) == 0:
 #         print("none")
-        return False
+        return True
     
     weights = {}
     for n in neighbors:

@@ -1,5 +1,7 @@
 
 import pickle
+import generating_descriptors as gd
+import Profile
 
 def load_db(pathname):
     """
@@ -68,7 +70,7 @@ def add_image(img, name):
     name: string - name of person to add to
     
     """
-    descriptor = find_faces(img)[0]
+    descriptor = gd.find_faces(img)[0]
     database = load_db("database.pkl")
     
     if not name in database:
