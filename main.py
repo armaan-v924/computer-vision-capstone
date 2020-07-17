@@ -1,7 +1,5 @@
 # Imports
-import Profile
 import database_functions
-import generating_descriptors
 import camera
 import display_image
 
