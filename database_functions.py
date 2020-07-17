@@ -74,7 +74,7 @@ def add_image(img, name):
     database = load_db("database.pkl")
     
     if not name in database:
-        database[name] = Profile(name)
+        database[name] = Profile.Profile(name)
     
     database[name].add_face_descriptor(descriptor)
     save_db(database, "database.pkl")

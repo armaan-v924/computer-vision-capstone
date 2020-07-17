@@ -295,4 +295,3 @@ def cluster_to_profile(clusters, graph, pickle):
             df.add_profile(new_person)
             for node_id in cluster:
                 df.add_image(graph[node_id].file_path, person_name)
-
